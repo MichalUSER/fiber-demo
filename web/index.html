@@ -1,0 +1,20 @@
+<script type="module">
+  import { createApp } from 'https://unpkg.com/petite-vue?module'
+
+  createApp({
+    msg: "",
+    fetchData() {
+      fetch(`http://localhost:3000/Michal/15`)
+        .then((res) => res.json())
+        .then((data) => {
+          this.msg = data
+        })
+    }
+  }).mount()
+</script>
+
+<!-- v-scope value can be omitted -->
+<div v-scope>
+  <p>{{ msg }}</p>
+  <button @click="fetchData">fetch</button>
+</div>
