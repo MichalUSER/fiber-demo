@@ -27,5 +27,7 @@ func main() {
 		return c.JSON(msg)
 	})
 
+	app.Static("/web", "./web")
+
 	app.Listen(":3000")
 }
