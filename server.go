@@ -1,33 +1,32 @@
 package main
 
 import (
-	"strconv"
+	"fmt"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
 	type Person struct {
-		name string
-		Age  uint64
+		Name string `json:"name"`
+		Age  uint64 `json:"age"`
 	}
 
 	app := fiber.New()
 
-	app.Use(cors.New())
-
-	app.Get("/:name/:age", func(c *fiber.Ctx) error {
-		age, _ := strconv.ParseUint(c.Params("age"), 10, 8)
-		name := c.Params("name")
-		msg := Person{
-			name: name,
-			Age:  age,
+	app.Post("/api", func(c *fiber.Ctx) error {
+		p := new(Person)
+		if err := c.BodyParser(p); err != nil {
+			return err
 		}
-		return c.JSON(msg)
+		return c.SendString(fmt.Sprintf("Hello %v!", p.Name))
 	})
 
-	app.Static("/web", "./web")
+	app.Static("/", "./web")
 
-	app.Listen(":3000")
+	err := app.Listen(":3030")
+	if err != nil {
+		log.Fatal(err)
+	}
 }

@@ -1,20 +1,33 @@
 <script type="module">
   import { createApp } from 'https://unpkg.com/petite-vue?module'
+  // import { createApp } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
 
   createApp({
     msg: "",
-    fetchData() {
-      fetch(`http://localhost:3000/Michal/15`)
-        .then((res) => res.json())
-        .then((data) => {
-          this.msg = data
-        })
+    name: "",
+    age: "",
+
+    async fetchData() {
+      let json = {
+        name: this.name,
+        age: parseInt(this.age)
+      }
+      let response = await fetch(`api`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(json),
+      })
+      this.msg = await response.text()
     }
   }).mount()
 </script>
 
 <!-- v-scope value can be omitted -->
 <div v-scope>
+  <input type="text" placeholder="Name" v-model="name">
+  <input type="text" placeholder="Age" v-model="age">
+  <button @click="fetchData">Fetch</button>
   <p>{{ msg }}</p>
-  <button @click="fetchData">fetch</button>
 </div>
