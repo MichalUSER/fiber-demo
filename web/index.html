@@ -19,15 +19,39 @@
         },
         body: JSON.stringify(json),
       })
-      this.msg = await response.text()
+      this.msg = await response.json()
     }
   }).mount()
 </script>
 
-<!-- v-scope value can be omitted -->
-<div v-scope>
-  <input type="text" placeholder="Name" v-model="name">
-  <input type="text" placeholder="Age" v-model="age">
-  <button @click="fetchData">Fetch</button>
-  <p>{{ msg }}</p>
-</div>
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fiber Demo</title>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    p {
+      background-color: gray;
+      padding: 2rem 1rem;
+      font-size: 1.3rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div v-scope>
+    <input type="text" placeholder="Name" v-model="name">
+    <input type="text" placeholder="Age" v-model="age">
+    <button @click="fetchData">Fetch</button>
+    <p>{{ msg }}</p>
+  </div>
+</body>
+
+</html>
